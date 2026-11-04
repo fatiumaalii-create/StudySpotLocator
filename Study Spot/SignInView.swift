@@ -75,6 +75,78 @@ struct SignInView: View {
                         let studentID = studentIDOrEmail.trimmingCharacters(in: .whitespacesAndNewlines)
                         showError = studentID.isEmpty || password.isEmpty
                      
+                        // Connect to Home when the sign-in flow is ready.
+                    } label: {
+                        Text("Sign In")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity, minHeight: 56)
+                            .background(StudyTheme.green, in: RoundedRectangle(cornerRadius: 16))
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, 22)
+
+                    HStack(spacing: 12) {
+                        Rectangle()
+                            .fill(StudyTheme.border)
+                            .frame(height: 1)
+
+                        Text("or")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(StudyTheme.ink)
+
+                        Rectangle()
+                            .fill(StudyTheme.border)
+                            .frame(height: 1)
+                    }
+                    .padding(.vertical, 18)
+
+                    Button {
+                        // Connect to Create Account when screen 3 is ready.
+                    } label: {
+                        Text("Create Account")
+                            .font(.headline)
+                            .foregroundStyle(StudyTheme.green)
+                            .frame(maxWidth: .infinity, minHeight: 56)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(StudyTheme.green, lineWidth: 1)
+                            }
+                    }
+                    .buttonStyle(.plain)
+
+                    Spacer(minLength: 44)
+                }
+                .frame(maxWidth: 420)
+                .padding(.horizontal, 22)
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: geometry.size.height)
+            }
+        }
+        .background(StudyTheme.background.ignoresSafeArea())
+        .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private func fieldRow<Content: View>(
+        icon: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .foregroundStyle(StudyTheme.muted)
+                .frame(width: 22)
+                .accessibilityHidden(true)
+
+            content()
+        }
+        .font(.subheadline)
+        .foregroundStyle(StudyTheme.ink)
+        .padding(.horizontal, 14)
+        .frame(minHeight: 58)
+        .background(StudyTheme.cream, in: RoundedRectangle(cornerRadius: 14))
+        .overlay {
+            RoundedRectangle(cornerRadius: 14)
+                .strokeBorder(StudyTheme.border, lineWidth: 1)
         }
     }
 }
