@@ -64,5 +64,5 @@ struct ContentView: View {
     }
 }
 #Preview {
-    SignInView()
+    ContentView()
 }

@@ -32,8 +32,7 @@ struct HomeView: View {
     .multilineTextAlignment(.center)
                                     
 
-                                Image("BookLogo")
-        .resizable()
+     Image("BookLogo").resizable()
     .scaledToFit()
          .frame(width: 160, height: 160)
            .padding(.vertical, 12)
@@ -42,6 +41,19 @@ struct HomeView: View {
                     HStack(spacing: 16) {
                         Image(systemName:"mappin.and.ellipse")
                             .font(.system(size: 30))
+                        
+                        Text("My Reminders")
+            .font(.headline)
+                        Spacer()
+
+   Image(systemName: "chevron.right")
+        }
+       .padding(20)
+       .frame(maxWidth: .infinity)
+      .background(fieldColor)
+       .foregroundColor(studyGreen)
+      .cornerRadius(20)
+      }
                                     
                                          
                                    

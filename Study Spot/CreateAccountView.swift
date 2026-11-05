@@ -134,6 +134,7 @@ struct CreateAccountView: View {
             )
         }
     }
+    
 
     func checkFields() {
         if name.isEmpty || studentID.isEmpty || email.isEmpty ||
