@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CreateAccountView: View {
+
     @Environment(\.dismiss) private var dismiss
-    
+
     @State private var name: String = ""
     @State private var studentID: String = ""
     @State private var email: String = ""
