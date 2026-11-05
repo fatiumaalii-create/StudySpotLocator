@@ -8,149 +8,125 @@
 import SwiftUI
 
 struct SignInView: View {
-    @State private var studentIDOrEmail = ""
-    @State private var password = ""
-    @State private var showPassword = false
-    @State private var showError = false
+    @State private var studentIDOrEmail: String = ""
+    @State private var password: String = ""
+    @State private var showPassword: Bool = false
+    @State private var showError: Bool = false
 
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack(spacing: 0) {
-                    Spacer(minLength: 44)
+        ZStack {
+            Color.green.opacity(0.15)
+                .ignoresSafeArea()
 
-                    Text("Welcome Back")
-                        .font(.system(size: 34, weight: .heavy, design: .rounded))
-                        .foregroundStyle(StudyTheme.ink)
-                        .multilineTextAlignment(.center)
+            VStack(spacing: 16) {
+                Spacer()
 
-                    Text("Sign in to find your\nperfect study spot.")
-                        .font(.subheadline)
-                        .foregroundStyle(StudyTheme.muted)
-                        .multilineTextAlignment(.center)
-                        .padding(.top, 12)
+                Text("Welcome Back")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
 
-                    Spacer(minLength: 34)
+                Text("Sign in to find your\nperfect study spot.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 20)
 
-                    fieldRow(icon: "person.fill") {
-                        TextField("Student ID or Email", text: $studentIDOrEmail)
-                            .textContentType(.username)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                    }
+                HStack {
+                    Image(systemName: "person.fill")
+                        .foregroundColor(.gray)
 
-                    fieldRow(icon: "lock.fill") {
-                        Group {
-                            if showPassword {
-                                TextField("Password", text: $password)
-                                    .textInputAutocapitalization(.never)
-                                    .autocorrectionDisabled()
-                            } else {
-                                SecureField("Password", text: $password)
-                            }
-                        }
-                        .textContentType(.password)
-
-                        Button {
-                            showPassword.toggle()
-                        } label: {
-                            Image(systemName: showPassword ? "eye.slash" : "eye")
-                                .foregroundStyle(StudyTheme.muted)
-                                .frame(width: 28, height: 44)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(showPassword ? "Hide password" : "Show password")
-                    }
-                    .padding(.top, 14)
-
-                    Text("Please complete all fields.")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(.red)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .opacity(showError ? 1 : 0)
-                        .accessibilityHidden(!showError)
-                        .padding(.top, 16)
-
-                    Button {
-                        let studentID = studentIDOrEmail.trimmingCharacters(in: .whitespacesAndNewlines)
-                        showError = studentID.isEmpty || password.isEmpty
-                     
-                        // Connect to Home when the sign-in flow is ready.
-                    } label: {
-                        Text("Sign In")
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity, minHeight: 56)
-                            .background(StudyTheme.green, in: RoundedRectangle(cornerRadius: 16))
-                    }
-                    .buttonStyle(.plain)
-                    .padding(.top, 22)
-
-                    HStack(spacing: 12) {
-                        Rectangle()
-                            .fill(StudyTheme.border)
-                            .frame(height: 1)
-
-                        Text("or")
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(StudyTheme.ink)
-
-                        Rectangle()
-                            .fill(StudyTheme.border)
-                            .frame(height: 1)
-                    }
-                    .padding(.vertical, 18)
-
-                    Button {
-                        // Connect to Create Account when screen 3 is ready.
-                    } label: {
-                        Text("Create Account")
-                            .font(.headline)
-                            .foregroundStyle(StudyTheme.green)
-                            .frame(maxWidth: .infinity, minHeight: 56)
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(StudyTheme.green, lineWidth: 1)
-                            }
-                    }
-                    .buttonStyle(.plain)
-
-                    Spacer(minLength: 44)
+                    TextField("Student ID or Email", text: $studentIDOrEmail)
+                        .autocapitalization(.none)
                 }
-                .frame(maxWidth: 420)
-                .padding(.horizontal, 22)
-                .frame(maxWidth: .infinity)
-                .frame(minHeight: geometry.size.height)
+                .padding()
+                .background(Color.white)
+                .cornerRadius(16)
+
+                HStack {
+                    Image(systemName: "lock.fill")
+                        .foregroundColor(.gray)
+
+                    if showPassword {
+                        TextField("Password", text: $password)
+                            .autocapitalization(.none)
+                    } else {
+                        SecureField("Password", text: $password)
+                    }
+
+                    Button {
+                        showPassword = !showPassword
+                    } label: {
+                        if showPassword {
+                            Image(systemName: "eye.slash")
+                                .foregroundColor(.gray)
+                        } else {
+                            Image(systemName: "eye")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(16)
+
+                if showError {
+                    HStack {
+                        Text("Please complete all fields.")
+                            .font(.subheadline)
+                            .foregroundColor(.red)
+
+                        Spacer()
+                    }
+                }
+
+                Button(action: checkFields) {
+                    Text("Sign In")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green.opacity(0.85))
+                        .foregroundColor(.white)
+                        .cornerRadius(20)
+                }
+
+                HStack {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(height: 1)
+
+                    Text("or")
+                        .font(.subheadline)
+
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(height: 1)
+                }
+
+                Button {
+                    // بنربطه بشاشة Create Account يوم نسويها.
+                } label: {
+                    Text("Create Account")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white)
+                        .foregroundColor(.green)
+                        .cornerRadius(20)
+                }
+
+                Spacer()
             }
+            .padding(.horizontal, 20)
         }
-        .background(StudyTheme.background.ignoresSafeArea())
-        .toolbar(.hidden, for: .navigationBar)
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
 
-    private func fieldRow<Content: View>(
-        icon: String,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .foregroundStyle(StudyTheme.muted)
-                .frame(width: 22)
-                .accessibilityHidden(true)
-
-            content()
-        }
-        .font(.subheadline)
-        .foregroundStyle(StudyTheme.ink)
-        .padding(.horizontal, 14)
-        .frame(minHeight: 58)
-        .background(StudyTheme.cream, in: RoundedRectangle(cornerRadius: 14))
-        .overlay {
-            RoundedRectangle(cornerRadius: 14)
-                .strokeBorder(StudyTheme.border, lineWidth: 1)
+    func checkFields() {
+        if studentIDOrEmail.isEmpty || password.isEmpty {
+            showError = true
+        } else {
+            showError = false
         }
     }
-}
-
-#Preview {
-    SignInView()
 }
