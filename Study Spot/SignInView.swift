@@ -111,9 +111,7 @@ struct SignInView: View {
                         .frame(height: 1)
                 }
 
-                Button {
-                    // بنربطه بشاشة Create Account يوم نسويها.
-                } label: {
+                NavigationLink(destination: CreateAccountView()) {
                     Text("Create Account")
                         .font(.headline)
                         .padding()
