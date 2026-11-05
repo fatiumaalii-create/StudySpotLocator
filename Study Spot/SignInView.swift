@@ -13,9 +13,14 @@ struct SignInView: View {
     @State private var showPassword: Bool = false
     @State private var showError: Bool = false
 
+    let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
+    let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
+    let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
+    let fieldColor = Color(red: 251.0 / 255, green: 249.0 / 255, blue: 243.0 / 255)
+
     var body: some View {
         ZStack {
-            Color.green.opacity(0.15)
+            studyBackground
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
@@ -24,6 +29,7 @@ struct SignInView: View {
                 Text("Welcome Back")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .foregroundColor(studyText)
 
                 Text("Sign in to find your\nperfect study spot.")
                     .font(.subheadline)
@@ -38,8 +44,9 @@ struct SignInView: View {
                     TextField("Student ID or Email", text: $studentIDOrEmail)
                         .autocapitalization(.none)
                 }
+                .foregroundColor(studyText)
                 .padding()
-                .background(Color.white)
+                .background(fieldColor)
                 .cornerRadius(16)
 
                 HStack {
@@ -65,8 +72,9 @@ struct SignInView: View {
                         }
                     }
                 }
+                .foregroundColor(studyText)
                 .padding()
-                .background(Color.white)
+                .background(fieldColor)
                 .cornerRadius(16)
 
                 if showError {
@@ -84,7 +92,7 @@ struct SignInView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green.opacity(0.85))
+                        .background(studyGreen)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                 }
@@ -96,6 +104,7 @@ struct SignInView: View {
 
                     Text("or")
                         .font(.subheadline)
+                        .foregroundColor(studyText)
 
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
@@ -109,8 +118,8 @@ struct SignInView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.white)
-                        .foregroundColor(.green)
+                        .background(fieldColor)
+                        .foregroundColor(studyGreen)
                         .cornerRadius(20)
                 }
 
@@ -129,4 +138,7 @@ struct SignInView: View {
             showError = false
         }
     }
+}
+#Preview {
+    SignInView()
 }

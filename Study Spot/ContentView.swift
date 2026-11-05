@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
+    let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
+    let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
+
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.green.opacity(0.15)
+                studyBackground
                     .ignoresSafeArea()
 
                 VStack(spacing: 24) {
@@ -24,14 +28,16 @@ struct ContentView: View {
 
                     Text("Study Spot\nLocator")
                         .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(studyText)
                         .multilineTextAlignment(.center)
 
                     Rectangle()
-                        .fill(Color.green)
+                        .fill(studyGreen)
                         .frame(width: 54, height: 4)
 
                     Text("Welcome to\nOur Library")
                         .font(.system(size: 26, weight: .bold, design: .rounded))
+                        .foregroundColor(studyText)
                         .multilineTextAlignment(.center)
 
                     Spacer()
@@ -44,7 +50,7 @@ struct ContentView: View {
                         .font(.headline)
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.green.opacity(0.85))
+                        .background(studyGreen)
                         .foregroundColor(.white)
                         .cornerRadius(20)
                     }
@@ -56,4 +62,7 @@ struct ContentView: View {
             .navigationBarHidden(true)
         }
     }
+}
+#Preview {
+    SignInView()
 }
