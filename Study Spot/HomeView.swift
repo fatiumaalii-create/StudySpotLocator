@@ -26,15 +26,26 @@ struct HomeView: View {
                     .foregroundColor(studyText)
                 
                 Text("Find a quiet place. Get more done.")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                                    .multilineTextAlignment(.center)
+.font(.subheadline)
+    .foregroundColor(.gray)
+                
+    .multilineTextAlignment(.center)
+                                    
 
                                 Image("BookLogo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 160, height: 160)
-                                    .padding(.vertical, 12)
+        .resizable()
+    .scaledToFit()
+         .frame(width: 160, height: 160)
+           .padding(.vertical, 12)
+                Button {
+                } label: {
+                    HStack(spacing: 16) {
+                        Image(systemName:"mappin.and.ellipse")
+                            .font(.system(size: 30))
+                                    
+                                         
+                                   
+
 
 
 #Preview {
