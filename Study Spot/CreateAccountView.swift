@@ -1,3 +1,4 @@
+
 //
 //  CreateAccountView.swift
 //  Study Spot
@@ -8,49 +9,39 @@
 import SwiftUI
 
 struct CreateAccountView: View {
-
     @Environment(\.dismiss) private var dismiss
 
-    @State private var name: String = ""
-    @State private var studentID: String = ""
-    @State private var email: String = ""
-    @State private var password: String = ""
-    @State private var confirmPassword: String = ""
-
-    @State private var showAlert: Bool = false
-    @State private var alertTitle: String = ""
-    @State private var alertMessage: String = ""
-
-    let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
-    let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
-    let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
-    let fieldColor = Color(red: 251.0 / 255, green: 249.0 / 255, blue: 243.0 / 255)
+    @State private var name = ""
+    @State private var studentID = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
 
     var body: some View {
         ZStack {
-            studyBackground
-                .ignoresSafeArea()
+            studyBackground.ignoresSafeArea()
 
-                VStack(spacing: 14) {
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                Text("Back")
-                            }
-                            .foregroundColor(studyText)
+            VStack(spacing: 14) {
+                HStack {
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
                         }
-
-                        Spacer()
+                        .foregroundColor(studyText)
                     }
 
-                    
-                    Text("Create Account")
+                    Spacer()
+                }
+
+                Text("Create Account")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(studyText)
 
                 Text("Join to start finding study spots\naround campus.")
                     .font(.subheadline)
@@ -59,8 +50,7 @@ struct CreateAccountView: View {
                     .padding(.bottom, 14)
 
                 HStack {
-                    Image(systemName: "person.fill")
-                        .foregroundColor(.gray)
+                    Image(systemName: "person.fill").foregroundColor(.gray)
                     TextField("Name", text: $name)
                         .autocapitalization(.words)
                 }
@@ -69,8 +59,7 @@ struct CreateAccountView: View {
                 .cornerRadius(16)
 
                 HStack {
-                    Image(systemName: "person.fill")
-                        .foregroundColor(.gray)
+                    Image(systemName: "person.fill").foregroundColor(.gray)
                     TextField("Student ID", text: $studentID)
                         .autocapitalization(.none)
                 }
@@ -79,8 +68,7 @@ struct CreateAccountView: View {
                 .cornerRadius(16)
 
                 HStack {
-                    Image(systemName: "envelope.fill")
-                        .foregroundColor(.gray)
+                    Image(systemName: "envelope.fill").foregroundColor(.gray)
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
@@ -90,8 +78,7 @@ struct CreateAccountView: View {
                 .cornerRadius(16)
 
                 HStack {
-                    Image(systemName: "lock.fill")
-                        .foregroundColor(.gray)
+                    Image(systemName: "lock.fill").foregroundColor(.gray)
                     SecureField("Password", text: $password)
                 }
                 .padding()
@@ -99,8 +86,7 @@ struct CreateAccountView: View {
                 .cornerRadius(16)
 
                 HStack {
-                    Image(systemName: "lock.fill")
-                        .foregroundColor(.gray)
+                    Image(systemName: "lock.fill").foregroundColor(.gray)
                     SecureField("Confirm Password", text: $confirmPassword)
                 }
                 .padding()
@@ -124,7 +110,6 @@ struct CreateAccountView: View {
             .padding(.horizontal, 20)
             .padding(.top, 16)
         }
-        .navigationTitle("")
         .navigationBarHidden(true)
         .alert(isPresented: $showAlert) {
             Alert(
@@ -134,7 +119,6 @@ struct CreateAccountView: View {
             )
         }
     }
-    
 
     func checkFields() {
         if name.isEmpty || studentID.isEmpty || email.isEmpty ||
@@ -154,7 +138,5 @@ struct CreateAccountView: View {
 }
 
 #Preview {
-    NavigationStack {
-        CreateAccountView()
-    }
+    CreateAccountView()
 }

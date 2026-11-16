@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
-    let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
-    let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
+let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
+let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
+let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
+let fieldColor = Color(red: 251.0 / 255, green: 249.0 / 255, blue: 243.0 / 255)
 
+struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                studyBackground
-                    .ignoresSafeArea()
+                studyBackground.ignoresSafeArea()
 
                 VStack(spacing: 24) {
                     Spacer()
@@ -58,11 +58,11 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 20)
             }
-            .navigationTitle("")
             .navigationBarHidden(true)
         }
     }
 }
+
 #Preview {
     ContentView()
 }
