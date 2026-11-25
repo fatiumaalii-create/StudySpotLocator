@@ -6,16 +6,19 @@
 //  Created by apple on 05/11/2026.
 //
 
+
+
 import SwiftUI
 
+// Screen 3: Create Account
+// The "< Back" button is the normal NavigationStack back button (Unit 3.2)
 struct CreateAccountView: View {
-    @Environment(\.dismiss) private var dismiss
-
     @State private var name = ""
     @State private var studentID = ""
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+
     @State private var showAlert = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
@@ -24,30 +27,16 @@ struct CreateAccountView: View {
         ZStack {
             studyBackground.ignoresSafeArea()
 
-            VStack(spacing: 14) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                            Text("Back")
-                        }
-                        .foregroundColor(studyText)
-                    }
-
-                    Spacer()
-                }
-
+            VStack(spacing: 12) {
                 Text("Create Account")
                     .font(.largeTitle)
-                    .fontWeight(.bold)
+                    .bold()
 
                 Text("Join to start finding study spots\naround campus.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
-                    .padding(.bottom, 14)
+                    .padding(.bottom, 10)
 
                 HStack {
                     Image(systemName: "person.fill").foregroundColor(.gray)
@@ -93,7 +82,9 @@ struct CreateAccountView: View {
                 .background(fieldColor)
                 .cornerRadius(16)
 
-                Button(action: checkFields) {
+                Button {
+                    checkFields()
+                } label: {
                     Text("Create Account")
                         .font(.headline)
                         .padding()
@@ -102,15 +93,14 @@ struct CreateAccountView: View {
                         .foregroundColor(.white)
                         .cornerRadius(20)
                 }
-                .padding(.top, 14)
+                .padding(.top, 10)
 
                 Spacer()
             }
             .foregroundColor(studyText)
             .padding(.horizontal, 20)
-            .padding(.top, 16)
         }
-        .navigationBarHidden(true)
+        // Unit 3.1: Alert controlled by a Bool
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text(alertTitle),
@@ -129,8 +119,8 @@ struct CreateAccountView: View {
             alertTitle = "Signup Error"
             alertMessage = "Passwords do not match."
         } else {
-            alertTitle = "Details Checked"
-            alertMessage = "All fields are complete and the passwords match."
+            alertTitle = "Account Created"
+            alertMessage = "Your account was created. Tap Back to sign in."
         }
 
         showAlert = true
@@ -138,5 +128,7 @@ struct CreateAccountView: View {
 }
 
 #Preview {
-    CreateAccountView()
+    NavigationStack {
+        CreateAccountView()
+    }
 }

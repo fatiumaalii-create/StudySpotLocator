@@ -5,69 +5,68 @@
 //  Created by apple on 04/11/2026.
 //
 
+
+
 import SwiftUI
 
+// Screen 2: Sign In
 struct SignInView: View {
+    @AppStorage("isSignedIn") private var isSignedIn = false
+
     @State private var studentIDOrEmail = ""
     @State private var password = ""
     @State private var showPassword = false
     @State private var showError = false
-    @State private var showHome = false
-    
+
     var body: some View {
         ZStack {
             studyBackground.ignoresSafeArea()
-            
+
             VStack(spacing: 16) {
                 Spacer()
-                
+
                 Text("Welcome Back")
                     .font(.largeTitle)
-                    .fontWeight(.bold)
-                
+                    .bold()
+
                 Text("Sign in to find your\nperfect study spot.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 20)
-                
+
                 HStack {
                     Image(systemName: "person.fill")
                         .foregroundColor(.gray)
-                    
                     TextField("Student ID or Email", text: $studentIDOrEmail)
                         .autocapitalization(.none)
                 }
                 .padding()
                 .background(fieldColor)
                 .cornerRadius(16)
-                
+
                 HStack {
                     Image(systemName: "lock.fill")
                         .foregroundColor(.gray)
-                    
+
                     if showPassword {
                         TextField("Password", text: $password)
                             .autocapitalization(.none)
                     } else {
                         SecureField("Password", text: $password)
                     }
-                    
+
                     Button {
                         showPassword = !showPassword
                     } label: {
-                        if showPassword {
-                            Image(systemName: "eye.slash")
-                        } else {
-                            Image(systemName: "eye")
-                        }
+                        Image(systemName: showPassword ? "eye.slash" : "eye")
+                            .foregroundColor(.gray)
                     }
-                    .foregroundColor(.gray)
                 }
                 .padding()
                 .background(fieldColor)
                 .cornerRadius(16)
-                
+
                 if showError {
                     HStack {
                         Text("Please complete all fields.")
@@ -76,8 +75,10 @@ struct SignInView: View {
                         Spacer()
                     }
                 }
-                
-                Button(action: checkFields) {
+
+                Button {
+                    checkFields()
+                } label: {
                     Text("Sign In")
                         .font(.headline)
                         .padding()
@@ -86,20 +87,20 @@ struct SignInView: View {
                         .foregroundColor(.white)
                         .cornerRadius(20)
                 }
-                
+
                 HStack {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
                         .frame(height: 1)
-                    
+
                     Text("or")
                         .font(.subheadline)
-                    
+
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
                         .frame(height: 1)
                 }
-                
+
                 NavigationLink(destination: CreateAccountView()) {
                     Text("Create Account")
                         .font(.headline)
@@ -109,31 +110,28 @@ struct SignInView: View {
                         .foregroundColor(studyGreen)
                         .cornerRadius(20)
                 }
-                
+
                 Spacer()
             }
             .foregroundColor(studyText)
             .padding(.horizontal, 20)
         }
         .navigationBarHidden(true)
-        .navigationDestination(isPresented: $showHome) {
-            MainTabView()
-        }
     }
-    
+
+    // Unit 1.4 + 3.1: check the fields, then go to Home
     func checkFields() {
         if studentIDOrEmail.isEmpty || password.isEmpty {
             showError = true
         } else {
             showError = false
-            showHome = true
-            
-            
-            #Preview {
-                NavigationStack {
-                    SignInView()
-                }
-            }
+            isSignedIn = true          // ContentView now shows the Home tabs
         }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        SignInView()
     }
 }

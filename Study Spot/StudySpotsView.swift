@@ -5,44 +5,33 @@
 //  Created by apple on 12/11/2026.
 //
 
-import SwiftUI
 
+import SwiftUI
+import SwiftData
+
+// Screen 5: Study Spots (list from SwiftData, search, swipe to delete)
 struct StudySpotsView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Query private var spots: [StudySpot]
+
     @State private var searchText = ""
 
-    let studyBackground = Color(red: 238.0 / 255, green: 240.0 / 255, blue: 228.0 / 255)
-    let studyGreen = Color(red: 28.0 / 255, green: 64.0 / 255, blue: 44.0 / 255)
-    let studyText = Color(red: 16.0 / 255, green: 45.0 / 255, blue: 30.0 / 255)
-    let fieldColor = Color(red: 251.0 / 255, green: 249.0 / 255, blue: 243.0 / 255)
-
-    let cafeNotes = "A cozy spot with great coffee and a calm atmosphere."
-    let libraryNotes = "Spacious, quiet, and perfect for focused study."
+    // Only the spots that match the search text (loops + Strings lesson)
+    private var filteredSpots: [StudySpot] {
+        var result: [StudySpot] = []
+        for spot in spots {
+            if searchText.isEmpty || spot.name.lowercased().contains(searchText.lowercased()) {
+                result.append(spot)
+            }
+        }
+        return result
+    }
 
     var body: some View {
         ZStack {
             studyBackground.ignoresSafeArea()
 
-            VStack(spacing: 16) {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                            Text("Back")
-                        }
-                        .foregroundColor(studyText)
-                    }
-
-                    Spacer()
-                }
-
-                Text("Study Spots")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(studyText)
-
+            VStack(spacing: 12) {
                 Text("Discover great places to study\non campus.")
                     .font(.subheadline)
                     .foregroundColor(.gray)
@@ -56,9 +45,8 @@ struct StudySpotsView: View {
                         .textFieldStyle(.roundedBorder)
                         .autocapitalization(.none)
 
-                    Button {
-
-                    } label: {
+                    // "+" opens the Add Spot screen (screen 7)
+                    NavigationLink(destination: AddSpotView()) {
                         Image(systemName: "plus")
                             .padding()
                             .background(studyGreen)
@@ -66,74 +54,37 @@ struct StudySpotsView: View {
                             .cornerRadius(12)
                     }
                 }
+                .padding(.horizontal, 20)
 
-                NavigationLink(destination: SpotDetailsView(
-                    name: "Quiet Cafe",
-                    icon: "cup.and.saucer.fill",
-                    notes: cafeNotes,
-                    hasCoffee: true
-                )) {
-                    HStack(spacing: 14) {
-                        Image(systemName: "cup.and.saucer.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(studyGreen)
+                List {
+                    ForEach(filteredSpots) { spot in
+                        NavigationLink(destination: SpotDetailsView(spot: spot)) {
+                            HStack(spacing: 14) {
+                                Image(systemName: spot.icon)
+                                    .font(.system(size: 30))
+                                    .foregroundColor(studyGreen)
 
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Quiet Cafe").font(.headline)
-                            Text(cafeNotes)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(spot.name)
+                                        .font(.headline)
+                                    Text(spot.notes)
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                            }
                         }
-
-                        Spacer()
-                        Image(systemName: "chevron.right")
                     }
-                    .padding()
-                    .background(fieldColor)
-                    .foregroundColor(studyText)
-                    .cornerRadius(16)
+                    .onDelete(perform: deleteSpots)
                 }
-                .buttonStyle(.plain)
-
-                NavigationLink(destination: SpotDetailsView(
-                    name: "Campus Library",
-                    icon: "building.columns.fill",
-                    notes: libraryNotes,
-                    hasCoffee: false
-                )) {
-                    HStack(spacing: 14) {
-                        Image(systemName: "building.columns.fill")
-                            .font(.system(size: 30))
-                            .foregroundColor(studyGreen)
-
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text("Campus Library").font(.headline)
-                            Text(libraryNotes)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                    }
-                    .padding()
-                    .background(fieldColor)
-                    .foregroundColor(studyText)
-                    .cornerRadius(16)
-                }
-                .buttonStyle(.plain)
-
-                Spacer()
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 16)
         }
-        .navigationBarHidden(true)
+        .navigationTitle("Study Spots")
     }
-}
 
-#Preview {
-    NavigationStack {
-        StudySpotsView()
+    // Unit 4.5: delete from the database
+    private func deleteSpots(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { filteredSpots[$0] }.forEach(modelContext.delete)
+        }
     }
 }
