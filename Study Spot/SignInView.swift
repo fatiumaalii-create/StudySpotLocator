@@ -119,13 +119,12 @@ struct SignInView: View {
         .navigationBarHidden(true)
     }
 
-    // Unit 1.4 + 3.1: check the fields, then go to Home
     func checkFields() {
         if studentIDOrEmail.isEmpty || password.isEmpty {
             showError = true
         } else {
             showError = false
-            isSignedIn = true          // ContentView now shows the Home tabs
+            isSignedIn = true          
         }
     }
 }
