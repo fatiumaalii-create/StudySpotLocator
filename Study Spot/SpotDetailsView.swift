@@ -234,13 +234,3 @@ struct SpotDetailsView: View {
         }
     }
 }
-#Preview {
-    NavigationStack {
-        SpotDetailsView(
-            name: "Quiet Cafe",
-            icon: "cup.and.saucer.fill",
-            notes: "A cozy spot with great coffee and a calm atmosphere.",
-            hasCoffee: true
-        )
-    }
-}
