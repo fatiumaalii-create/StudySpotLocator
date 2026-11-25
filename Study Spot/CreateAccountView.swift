@@ -11,7 +11,7 @@
 import SwiftUI
 
 // Screen 3: Create Account
-// The "< Back" button is the normal NavigationStack back button (Unit 3.2)
+
 struct CreateAccountView: View {
     @State private var name = ""
     @State private var studentID = ""
@@ -100,7 +100,7 @@ struct CreateAccountView: View {
             .foregroundColor(studyText)
             .padding(.horizontal, 20)
         }
-        // Unit 3.1: Alert controlled by a Bool
+
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text(alertTitle),
