@@ -9,20 +9,18 @@ import SwiftUI
 import SwiftData
 import UserNotifications
 
-// ---------------------------------------------------------
-// Unit 4.5: SwiftData model (same pattern as FoodOrder / Book in the practice)
-// ---------------------------------------------------------
+
 @Model
 class StudySpot {
     var id: UUID
     var name: String
     var notes: String
     var icon: String
-    var rating: Int                  // 0 = not rated yet, 1...5 stars
+    var rating: Int
     var hasCoffee: Bool
-    var drinkBooked: String          // "No drink" or the drink name
+    var drinkBooked: String
     var bookingSaved: Bool
-    var reminderMinutes: Int         // 0 = no reminder saved
+    var reminderMinutes: Int
     var reminderNotification: Bool
 
     init(name: String, notes: String, icon: String, rating: Int, hasCoffee: Bool) {
@@ -39,7 +37,6 @@ class StudySpot {
     }
 }
 
-// Unit 3.3: show the notification banner even when the app is open
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
@@ -62,7 +59,7 @@ struct Study_SpotApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: StudySpot.self)      // Unit 4.5: SwiftData
+        .modelContainer(for: StudySpot.self)      
     }
 }
 
